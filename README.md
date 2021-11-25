@@ -25,3 +25,22 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+## The Task
+
+Task manager:
+
+- Login
+- Hardcoded list of users Admin x1, Simple users x4
+- Sidebar with list of projects (simple list with icon and title), by clicking on project board should be opened, where user can see list of tasks
+- Navbar should display information of logged in user, clicking on info user should have an option to edit information or logouts
+- Edit user information page, should include name, email, password with confirmation (two fields with comparing of match)
+- As a user avatar should be used initials of name, example: First User - FU, First - Fi
+- On sidebar should be an option to create new project on separate page
+- New project/ edit project page should contain: title, description, icon selector (can be used from ant or whatever, simple list of 10-30 icons), list of users added to project
+- On a board there should be an option to create new tasks, it can be opened in modal window
+- Create/edit task should contain: title, description, list of assigned users
+- Description should be html input (see at nix-quill library)
+- When user login, he should see on sidebar list of added by him projects, or projects where he was invited.
+- When invited user open project, he cannot create new tasks, only review it
+- Admin can create new users, review all projects, edit them or delete
