@@ -16,3 +16,4 @@ export class UserService {
     return this.http.get<User>(`${environment.apiUrl}/users/${id}`);
   }
 }
+// відписувати від підписок ng destroy

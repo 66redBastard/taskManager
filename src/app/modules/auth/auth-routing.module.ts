@@ -10,7 +10,7 @@ const routes: Routes = [
     path: '',
     component: LayoutComponent,
     children: [
-      { path: 'login', component: LoginComponent },
+      { path: '', component: LoginComponent },
       { path: 'register', component: RegistrationComponent },
     ],
   },
@@ -20,4 +20,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class AccountRoutingModule {}
+export class AuthRoutingModule {}

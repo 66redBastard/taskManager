@@ -1,15 +1,34 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AuthGuard } from './helpers/auth.guard';
-import { HomeComponent } from './pages/home/home.component';
+import { AuthGuard } from './shared/guards/auth.guard';
+// import { Role } from './models';
 
-const accountModule = () =>
-  import('./pages/account/account.module').then((x) => x.AccountModule);
+// import { AdminComponent } from './shared/components/admin/admin.component';
+// import { HomeComponent } from './modules/account/home/home.component';
+
+const authModule = () =>
+  import('./modules/auth/auth.module').then((x) => x.AuthModule);
+
+// const accountModule = () =>
 
 const routes: Routes = [
-  { path: '', component: HomeComponent, canActivate: [AuthGuard] },
-  { path: 'account', loadChildren: accountModule },
+  {
+    path: '',
+    loadChildren: authModule,
+  },
+  {
+    path: 'account',
+    loadChildren: () =>
+      import('./modules/account/account.module').then((y) => y.AccountModule),
+    canActivate: [AuthGuard],
+  },
+  // {
+  //   path: 'admin',
+  //   component: AdminComponent,
+  //   canActivate: [AuthGuard],
+  //   data: { roles: [Role.Admin] },
+  // },
 ];
 
 @NgModule({

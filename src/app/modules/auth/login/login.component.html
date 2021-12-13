@@ -1,0 +1,35 @@
+<form nz-form class="login-form" [formGroup]="loginForm"
+    (ngSubmit)="onSubmit()">
+    <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your username!">
+            <nz-input-group nzPrefixIcon="user">
+                <input type="text" nz-input formControlName="username"
+                    [ngClass]="{ 'is-invalid': submitted && f.username.errors }"
+                    placeholder="Username" />
+            </nz-input-group>
+        </nz-form-control>
+        <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+            <div *ngIf="f.username.errors.required">Username is required</div>
+        </div>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your Password!">
+            <nz-input-group nzPrefixIcon="lock">
+                <input type="password" nz-input formControlName="password"
+                    placeholder="Password" />
+            </nz-input-group>
+        </nz-form-control>
+        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+            <div *ngIf="f.password.errors.required">Password is required</div>
+        </div>
+    </nz-form-item>
+    <button nz-button [disabled]="loading"
+        class="login-form-button login-form-margin" [nzType]="'primary'">
+        <span *ngIf="loading"
+            class="spinner-border spinner-border-sm mr-1"></span>
+        Log in
+    </button>
+    <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+    or
+    <a routerLink="/register">Register Now!</a>
+</form>

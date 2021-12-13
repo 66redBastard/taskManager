@@ -10,7 +10,7 @@ import {
 import { Observable, of, throwError } from 'rxjs';
 import { delay, materialize, dematerialize } from 'rxjs/operators';
 
-import { Role } from '../models';
+import { Role } from '../../models';
 
 const users = [
   {
@@ -66,6 +66,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     return handleRoute();
 
     function handleRoute() {
+      console.log('fake backend');
       switch (true) {
         case url.endsWith('/users/authenticate') && method === 'POST':
           return authenticate();
@@ -106,7 +107,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       if (!isLoggedIn()) return unauthorized();
 
       // only admins can access other user records
-      if (!isAdmin() && currentUser().id !== idFromUrl()) return unauthorized();
+      if (!isAdmin() && currentUser()!.id !== idFromUrl())
+        return unauthorized();
 
       const user = users.find((x) => x.id === idFromUrl());
       return ok(user);
@@ -114,7 +116,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     // helper functions
 
-    function ok(body) {
+    function ok(body: any) {
       return of(new HttpResponse({ status: 200, body })).pipe(delay(500)); // delay observable to simulate server api call
     }
 
@@ -125,7 +127,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       }).pipe(materialize(), delay(500), dematerialize()); // call materialize and dematerialize to ensure delay even if an error is thrown (https://github.com/Reactive-Extensions/RxJS/issues/648);
     }
 
-    function error(message) {
+    function error(message: any) {
       return throwError({ status: 400, error: { message } }).pipe(
         materialize(),
         delay(500),
@@ -139,12 +141,12 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     }
 
     function isAdmin() {
-      return isLoggedIn() && currentUser().role === Role.Admin;
+      return isLoggedIn() && currentUser()!.role === Role.Admin;
     }
 
     function currentUser() {
       if (!isLoggedIn()) return;
-      const id = parseInt(headers.get('Authorization').split('.')[1]);
+      const id = parseInt(headers.get('Authorization')!.split('.')[1]);
       return users.find((x) => x.id === id);
     }
 
@@ -161,3 +163,10 @@ export const fakeBackendProvider = {
   useClass: FakeBackendInterceptor,
   multi: true,
 };
+
+// treeshaking
+// ситуативно додавти компоненти
+// shared module ( запілляти інпут і сервіси ) + папки гардс та інтерсепторс
+// aaкаунт винести в окремий модуль і додати для , винести з пейджес,
+// сутності по модулях.
+// все винести в окремий модуль

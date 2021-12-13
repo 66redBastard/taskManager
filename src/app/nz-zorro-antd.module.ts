@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 
+// only for development use
+
 import { NzAffixModule } from 'ng-zorro-antd/affix';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzAnchorModule } from 'ng-zorro-antd/anchor';

@@ -14,9 +14,8 @@ export class AuthService {
   public user: Observable<User>;
 
   constructor(private router: Router, private http: HttpClient) {
-    this.userSubject = new BehaviorSubject<User>(
-      JSON.parse(localStorage.getItem('user') || '{}')
-    );
+    const userFromStorage: any = localStorage.getItem('user');
+    this.userSubject = new BehaviorSubject<User>(JSON.parse(userFromStorage));
     this.user = this.userSubject.asObservable();
   }
 
@@ -25,6 +24,7 @@ export class AuthService {
   }
 
   login(username: string, password: string) {
+    console.log('auth service login');
     return this.http
       .post<any>(`${environment.apiUrl}/users/authenticate`, {
         username,
@@ -44,6 +44,6 @@ export class AuthService {
     // remove user from local storage to log user out
     localStorage.removeItem('user');
     this.userSubject.next(null);
-    this.router.navigate(['/login']);
+    this.router.navigate(['/']);
   }
 }
